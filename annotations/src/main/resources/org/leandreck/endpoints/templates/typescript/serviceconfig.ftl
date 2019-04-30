@@ -17,7 +17,7 @@
 -->
 import { Injectable } from '@angular/core';
 import { HttpErrorResponse } from '@angular/common/http';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
+import { ErrorObservable } from 'rxjs/observables';
 
 @Injectable()
 export abstract class ServiceConfig {

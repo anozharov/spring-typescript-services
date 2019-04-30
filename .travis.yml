@@ -32,11 +32,9 @@ addons:
     build_command:   "mvn -DskipTests=true compile"
     branch_pattern: coverity_scan
   sonarcloud:
-    organization: "default" # the key of the org you chose at step #3
+    organization: "leandreck-org" # the key of the org you chose at step #3
     token:
       secure: $SONAR_TOKEN # encrypted value of your token
-    branches:
-      - master
 
 script:
   # the following command line builds the project, runs the tests with coverage and then execute the SonarQube analysis

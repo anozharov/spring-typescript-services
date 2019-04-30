@@ -18,11 +18,10 @@
 import { HttpClient, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
+import { Observable,ErrorObservable } from 'rxjs';
+
+import {catchError,throwError,map} from 'rxjs/operators';
+
 
 <#-- @ftlvariable name="" type="org.leandreck.endpoints.processor.model.EndpointNode" -->
 <#function buildUrl variables url>
@@ -39,6 +38,12 @@ import { ${type.typeName} } from './${type.typeName?lower_case}.model.generated'
 </#list>
 import { ServiceConfig } from './serviceconfig';
 
+<#if doc??>
+    <#assign typeDoc = doc?replace('\n', '\n * ')>
+/**
+ * ${typeDoc}
+ */
+</#if>
 @Injectable()
 export class ${serviceName} {
     private get serviceBaseURL(): string {
@@ -53,6 +58,12 @@ export class ${serviceName} {
 <#list getGetMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixGet}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -60,7 +71,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.get<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -69,6 +80,12 @@ export class ${serviceName} {
 <#list getHeadMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixHead}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -76,7 +93,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.head<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -85,6 +102,12 @@ export class ${serviceName} {
 <#list getPostMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixPost}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -92,7 +115,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.post<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -101,6 +124,12 @@ export class ${serviceName} {
 <#list getPutMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixPut}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -108,7 +137,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -117,6 +146,12 @@ export class ${serviceName} {
 <#list getPatchMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixPatch}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -124,7 +159,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.patch<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -133,6 +168,12 @@ export class ${serviceName} {
 <#list getDeleteMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixDelete}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -140,7 +181,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.delete<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -149,6 +190,12 @@ export class ${serviceName} {
 <#list getOptionsMethods() as method>
     <#assign expandedURL = method.url?replace('{', '\' + ')>
     <#assign expandedURL = expandedURL?replace('}', ' + \'')>
+    <#if method.doc??>
+        <#assign typeDoc = method.doc?replace('\n', '\n     * ')>
+    /**
+     * ${typeDoc}
+     */
+    </#if>
     public ${method.name}<#if printConfiguration.useSuffixes>${printConfiguration.suffixOptions}</#if>(<#list method.functionParameterTypes as variable>${variable.asFunctionParameter}: ${variable.type}<#sep>, </#sep></#list>): Observable<${method.returnType.type}> {
         const url = this.serviceBaseURL + '${expandedURL}';
         const params = this.createHttpParams({<#list method.queryParameterTypes><#items as queryParam>
@@ -156,7 +203,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.options<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -171,7 +218,7 @@ export class ${serviceName} {
             <#--responseType: 'json'-->
         <#--});-->
         <#--return this.httpClient.request<${method.returnType.type}>(request)-->
-            <#--.catch((error: HttpErrorResponse) => this.handleError(error));-->
+            <#--.catchError((error: HttpErrorResponse) => this.handleError(error));-->
     <#--}-->
 
 <#--</#list>-->
@@ -181,7 +228,7 @@ export class ${serviceName} {
         // instead of just logging it to the console
         this.log('error', error);
 
-        return Observable.throw(error);
+        return Observable.throwError(error);
     }
 
     private log(level: string, message: any): void {
