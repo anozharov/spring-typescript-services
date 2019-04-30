@@ -18,11 +18,10 @@
 import { HttpClient, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable } from 'rxjs/Observable';
-import { ErrorObservable } from 'rxjs/observable/ErrorObservable';
-import 'rxjs/add/operator/catch';
-import 'rxjs/add/observable/throw';
-import 'rxjs/add/operator/map';
+import { Observable,ErrorObservable } from 'rxjs';
+
+import {catchError,throwError,map} from 'rxjs/operators';
+
 
 <#-- @ftlvariable name="" type="org.leandreck.endpoints.processor.model.EndpointNode" -->
 <#function buildUrl variables url>
@@ -72,7 +71,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.get<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -94,7 +93,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.head<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -116,7 +115,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.post<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -138,7 +137,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -160,7 +159,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.patch<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -182,7 +181,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.delete<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -204,7 +203,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.options<${method.returnType.type}>(url, {params: params})
-            .catch((error: HttpErrorResponse) => this.onError(error));
+            .catchError((error: HttpErrorResponse) => this.onError(error));
     }
 
 </#list>
@@ -219,7 +218,7 @@ export class ${serviceName} {
             <#--responseType: 'json'-->
         <#--});-->
         <#--return this.httpClient.request<${method.returnType.type}>(request)-->
-            <#--.catch((error: HttpErrorResponse) => this.handleError(error));-->
+            <#--.catchError((error: HttpErrorResponse) => this.handleError(error));-->
     <#--}-->
 
 <#--</#list>-->
@@ -229,7 +228,7 @@ export class ${serviceName} {
         // instead of just logging it to the console
         this.log('error', error);
 
-        return Observable.throw(error);
+        return Observable.throwError(error);
     }
 
     private log(level: string, message: any): void {
