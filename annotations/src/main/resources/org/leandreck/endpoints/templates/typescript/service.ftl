@@ -70,8 +70,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.get<${method.returnType.type}>(url, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.get<${method.returnType.type}>(url, {params: params}).pipe(
+            catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -92,8 +92,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.head<${method.returnType.type}>(url, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.head<${method.returnType.type}>(url, {params: params}).pipe(
+           catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -114,8 +114,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.post<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.post<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params}).pipe(
+            catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -136,8 +136,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params}).pipe(
+            catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -158,8 +158,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.patch<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.patch<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params}).pipe(
+            catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -180,8 +180,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.delete<${method.returnType.type}>(url, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.delete<${method.returnType.type}>(url, {params: params}).pipe(
+           catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -202,8 +202,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.options<${method.returnType.type}>(url, {params: params})
-            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.options<${method.returnType.type}>(url, {params: params}).pipe(
+           catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
