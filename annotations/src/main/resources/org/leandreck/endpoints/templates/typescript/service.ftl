@@ -71,7 +71,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.get<${method.returnType.type}>(url, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -93,7 +93,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.head<${method.returnType.type}>(url, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -115,7 +115,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.post<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -137,7 +137,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -159,7 +159,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.patch<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -181,7 +181,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.delete<${method.returnType.type}>(url, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -203,7 +203,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.options<${method.returnType.type}>(url, {params: params})
-            .catchError((error: HttpErrorResponse) => this.onError(error));
+            .pipe(catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -218,7 +218,7 @@ export class ${serviceName} {
             <#--responseType: 'json'-->
         <#--});-->
         <#--return this.httpClient.request<${method.returnType.type}>(request)-->
-            <#--.catchError((error: HttpErrorResponse) => this.handleError(error));-->
+            <#--.pipe(catchError((error: HttpErrorResponse) => this.handleError(error)));-->
     <#--}-->
 
 <#--</#list>-->
