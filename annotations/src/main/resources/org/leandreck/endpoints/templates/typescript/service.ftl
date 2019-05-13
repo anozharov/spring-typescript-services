@@ -230,7 +230,7 @@ export class ${serviceName} {
 	errorMessage = error.error.message;
 	} else {
 	// Get server-side error
-	errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+	errorMessage = "An error has occurred.";
 		}
 		console.log("errror",errorMessage);
 
