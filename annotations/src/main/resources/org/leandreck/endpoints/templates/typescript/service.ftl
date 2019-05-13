@@ -232,7 +232,7 @@ export class ${serviceName} {
 		errorMessage = error.error.message;
 		} else {
 /		/ Get server-side error
-		errorMessage = `There has been some kind of error`;
+		errorMessage = "There has been an error";
 		}
 		console.log("error",errorMessage);
 
