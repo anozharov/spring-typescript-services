@@ -20,7 +20,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable,throwError } from 'rxjs';
 
-import {catchError,map,retry} from 'rxjs/operators';
+import {catchError,throwError,map} from 'rxjs/operators';
 
 
 <#-- @ftlvariable name="" type="org.leandreck.endpoints.processor.model.EndpointNode" -->
@@ -180,8 +180,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.delete<${method.returnType.type}>(url, {params: params}).pipe(retry(1)
-           catchError(this.handleError);
+        return this.httpClient.delete<${method.returnType.type}>(url, {params: params}).pipe(
+           catchError((error: HttpErrorResponse) => this.onError(error)));
     }
 
 </#list>
@@ -223,25 +223,18 @@ export class ${serviceName} {
 
 <#--</#list>-->
 
-
-private handleError(error) {
-let errorMessage = '';
-if(error.error instanceof ErrorEvent) {
-// Get client-side error
-errorMessage = error.error.message;
-} else {
-// Get server-side error
-errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
-}
-console.log("error",errorMessage);
-return throwError(errorMessage);
-}
-
-
-    private handleError(error: HttpErrorResponse) {
+    private handleError(error){
         // in a real world app, we may send the error to some remote logging infrastructure
         // instead of just logging it to the console
-        this.log('error', error);
+        let errorMessage = '';
+		if(error.error instanceof ErrorEvent) {
+		// Get client-side error
+		errorMessage = error.error.message;
+		} else {
+/		/ Get server-side error
+		errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+		}
+		console.log("error",errorMessage);
 
         return throwError(error);
     }
