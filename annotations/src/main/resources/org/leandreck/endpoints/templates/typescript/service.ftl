@@ -18,9 +18,9 @@
 import { HttpClient, HttpParams, HttpRequest, HttpErrorResponse } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-import { Observable,ErrorObservable } from 'rxjs';
+import { Observable,throwError } from 'rxjs';
 
-import {catchError,throwError,map} from 'rxjs/operators';
+import {catchError,map,retry} from 'rxjs/operators';
 
 
 <#-- @ftlvariable name="" type="org.leandreck.endpoints.processor.model.EndpointNode" -->
@@ -49,7 +49,7 @@ export class ${serviceName} {
     private get serviceBaseURL(): string {
         return this.serviceConfig.context + '${serviceURL}';
     }
-    private get onError(): (error: HttpErrorResponse) => ErrorObservable {
+    private get onError(): (error: HttpErrorResponse) => {
         return this.serviceConfig.onError || this.handleError.bind(this);
     }
 
@@ -180,8 +180,8 @@ export class ${serviceName} {
             ${queryParam.asVariableName}: ${queryParam.asVariableName}<#sep>,</#sep>
         </#items></#list>});
 
-        return this.httpClient.delete<${method.returnType.type}>(url, {params: params}).pipe(
-           catchError((error: HttpErrorResponse) => this.onError(error)));
+        return this.httpClient.delete<${method.returnType.type}>(url, {params: params}).pipe(retry(1)
+           catchError(this.handleError);
     }
 
 </#list>
@@ -223,12 +223,27 @@ export class ${serviceName} {
 
 <#--</#list>-->
 
-    private handleError(error: HttpErrorResponse): ErrorObservable {
+
+private handleError(error) {
+let errorMessage = '';
+if(error.error instanceof ErrorEvent) {
+// Get client-side error
+errorMessage = error.error.message;
+} else {
+// Get server-side error
+errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
+}
+console.log("error",errorMessage);
+return throwError(errorMessage);
+}
+
+
+    private handleError(error: HttpErrorResponse) {
         // in a real world app, we may send the error to some remote logging infrastructure
         // instead of just logging it to the console
         this.log('error', error);
 
-        return Observable.throwError(error);
+        return throwError(error);
     }
 
     private log(level: string, message: any): void {
