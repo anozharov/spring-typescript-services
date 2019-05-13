@@ -20,7 +20,7 @@ import { Injectable } from '@angular/core';
 
 import { Observable,throwError } from 'rxjs';
 
-import {catchError,throwError,map} from 'rxjs/operators';
+import {catchError,map} from 'rxjs/operators';
 
 
 <#-- @ftlvariable name="" type="org.leandreck.endpoints.processor.model.EndpointNode" -->
@@ -49,7 +49,7 @@ export class ${serviceName} {
     private get serviceBaseURL(): string {
         return this.serviceConfig.context + '${serviceURL}';
     }
-    private get onError(): (error: HttpErrorResponse) => {
+    private get onError() {
         return this.serviceConfig.onError || this.handleError.bind(this);
     }
 
@@ -223,18 +223,16 @@ export class ${serviceName} {
 
 <#--</#list>-->
 
-    private handleError(error){
-        // in a real world app, we may send the error to some remote logging infrastructure
-        // instead of just logging it to the console
-        let errorMessage = '';
-		if(error.error instanceof ErrorEvent) {
-		// Get client-side error
-		errorMessage = error.error.message;
-		} else {
-/		/ Get server-side error
-		errorMessage = "There has been an error";
+    private handleError(error: HttpErrorResponse) {
+	let errorMessage = '';
+	if(error.error instanceof ErrorEvent) {
+	// Get client-side error
+	errorMessage = error.error.message;
+	} else {
+	// Get server-side error
+	errorMessage = `Error Code: ${error.status}\nMessage: ${error.message}`;
 		}
-		console.log("error",errorMessage);
+		console.log("errror",errorMessage);
 
         return throwError(error);
     }
