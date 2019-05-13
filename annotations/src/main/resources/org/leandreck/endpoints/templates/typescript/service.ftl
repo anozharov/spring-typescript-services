@@ -71,7 +71,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.get<${method.returnType.type}>(url, {params: params}).pipe(retry(1),
-            catchError(this.handleError);
+            catchError(this.handleError));
     }
 
 </#list>
@@ -93,7 +93,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.head<${method.returnType.type}>(url, {params: params}).pipe(retry(1),
-           catchError(this.handleError);
+           catchError(this.handleError));
     }
 
 </#list>
@@ -137,7 +137,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.put<${method.returnType.type}>(url, ${(method.requestBodyType.fieldName)!"null"}, {params: params}).pipe(retry(1),
-            catchError(this.handleError);
+            catchError(this.handleError));
     }
 
 </#list>
@@ -203,7 +203,7 @@ export class ${serviceName} {
         </#items></#list>});
 
         return this.httpClient.options<${method.returnType.type}>(url, {params: params}).pipe(retry(1),
-           catchError(this.handleError);
+           catchError(this.handleError));
     }
 
 </#list>
